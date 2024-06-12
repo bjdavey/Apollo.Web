@@ -1,5 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
-import { AuthService, ScreenService, AppInfoService } from './shared/services';
+import { AuthService, ScreenService, AppInfoService, initUserInfo } from './shared/services';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,15 @@ export class AppComponent  {
     return Object.keys(this.screen.sizes).filter(cl => this.screen.sizes[cl]).join(' ');
   }
 
-  constructor(private authService: AuthService, private screen: ScreenService, public appInfo: AppInfoService) { }
+  environment = environment;
+
+  constructor(private authService: AuthService, private screen: ScreenService, public appInfo: AppInfoService) { 
+    var userInfo: any = localStorage.getItem("user");
+    if (userInfo) {
+      userInfo = JSON.parse(userInfo);
+      initUserInfo(userInfo);
+    }
+  }
 
   isAuthenticated() {
     return this.authService.loggedIn;

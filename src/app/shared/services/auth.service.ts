@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { UserInfo } from '../infrastructure/interfaces';
+import { IsPathAuthorized, getItemByPath, navigation } from 'src/app/app-navigation';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
-export interface IUser {
-  email: string;
-  avatarUrl?: string;
+export var LoggedUser: UserInfo;
+export function initUserInfo(info: UserInfo) {
+  LoggedUser = info
 }
 
 const defaultPath = '/';
-const defaultUser = {
-  email: 'sandra@example.com',
-  avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png'
-};
 
 @Injectable()
 export class AuthService {
-  private _user: IUser | null = defaultUser;
+
   get loggedIn(): boolean {
-    return !!this._user;
+    var user = localStorage.getItem("user");
+    return (user != null);
   }
 
   private _lastAuthenticatedPath: string = defaultPath;
@@ -24,27 +25,75 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
-  async logIn(email: string, password: string) {
+  async logIn(userName: string, password: string) {
+    const data = new FormData();
+    data.set('username', userName);
+    data.set('password', password);
 
-    try {
-      // Send request
-      this._user = { ...defaultUser, email };
-      this.router.navigate([this._lastAuthenticatedPath]);
-
-      return {
-        isOk: true,
-        data: this._user
-      };
-    }
-    catch {
-      return {
-        isOk: false,
-        message: "Authentication failed"
-      };
-    }
+    return new Promise<any>((resolve, reject) => {
+      this.http.post(`${environment.apiUrl}/api/Authentication/GetTokenByPassword`, data)
+        .subscribe(
+          {
+            next: (res: any) => {
+              var userInfo: UserInfo = {
+                id: res.id,
+                email: res.email,
+                name: res.name,
+                roles: res.roles
+              };
+              localStorage.setItem("user", JSON.stringify(userInfo));
+              localStorage.setItem("token", res.token);
+              initUserInfo(userInfo);
+              this.router.navigate([this._lastAuthenticatedPath]);
+              resolve({
+                isOk: true,
+                data: userInfo,
+                message: ""
+              });
+            },
+            error: (e) => {
+              var msg;
+              switch (e.status) {
+                case 401:
+                  msg = "Invalid password";
+                  break;
+                case 406:
+                  msg = "Invalid email";
+                  break;
+                case 403:
+                  msg = "Account is locked, try again later";
+                  break;
+                default:
+                  msg = "Server error";
+                  console.log(e);
+                  break;
+              }
+              resolve({
+                isOk: false,
+                data: null,
+                message: msg
+              });
+            },
+          }
+        );
+    });
   }
+
+
+  user = LoggedUser;
+  logOut() {
+    setTimeout(() => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      this.router.navigate(["/login-form"]);
+    }, 100);
+  }
+
+
+
+
 
   async getUser() {
     try {
@@ -52,7 +101,7 @@ export class AuthService {
 
       return {
         isOk: true,
-        data: this._user
+        data: this.user
       };
     }
     catch {
@@ -112,12 +161,12 @@ export class AuthService {
     }
   }
 
-  async logOut() {
-    this._user = null;
-    this.router.navigate(['/login-form']);
-  }
-}
+  // async logOut() {
+  //   this._user = null;
+  //   this.router.navigate(['/login-form']);
+  // }
 
+}
 @Injectable()
 export class AuthGuardService implements CanActivate {
   constructor(private router: Router, private authService: AuthService) { }
@@ -145,6 +194,16 @@ export class AuthGuardService implements CanActivate {
       this.authService.lastAuthenticatedPath = route.routeConfig?.path || defaultPath;
     }
 
-    return isLoggedIn || isAuthForm;
+    // return isLoggedIn || isAuthForm;
+    if (isLoggedIn || isAuthForm) {
+      var navigationItem = getItemByPath(navigation, route?.routeConfig?.path ?? "");
+      if (navigationItem) {
+        if (!IsPathAuthorized(navigationItem))
+          this.router.navigate(['/']);
+      }
+      return true;
+    }
+
+    return false;
   }
 }
