@@ -26,20 +26,21 @@ export class HeaderComponent implements OnInit {
 
   user: UserInfo | null = LoggedUser;
 
-  userMenuItems = [{
-    text: 'Profile',
-    icon: 'user',
-    onClick: () => {
-      this.router.navigate(['/profile']);
-    }
-  },
-  {
-    text: 'Logout',
-    icon: 'runner',
-    onClick: () => {
-      this.authService.logOut();
-    }
-  }];
+  userMenuItems = [
+    // {
+    //   text: 'Profile',
+    //   icon: 'user',
+    //   onClick: () => {
+    //     this.router.navigate(['/profile']);
+    //   }
+    // },
+    {
+      text: 'Logout',
+      icon: 'runner',
+      onClick: () => {
+        this.authService.logOut();
+      }
+    }];
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -59,7 +60,7 @@ export class HeaderComponent implements OnInit {
     UserPanelModule,
     DxToolbarModule
   ],
-  declarations: [ HeaderComponent ],
-  exports: [ HeaderComponent ]
+  declarations: [HeaderComponent],
+  exports: [HeaderComponent]
 })
 export class HeaderModule { }

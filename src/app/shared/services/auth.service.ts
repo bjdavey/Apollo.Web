@@ -27,9 +27,9 @@ export class AuthService {
 
   constructor(private router: Router, private http: HttpClient) { }
 
-  async logIn(userName: string, password: string) {
+  async logIn(email: string, password: string) {
     const data = new FormData();
-    data.set('username', userName);
+    data.set('email', email);
     data.set('password', password);
 
     return new Promise<any>((resolve, reject) => {
