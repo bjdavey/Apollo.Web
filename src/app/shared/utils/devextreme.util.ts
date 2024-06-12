@@ -1,6 +1,6 @@
 import { HttpParams } from "@angular/common/http";
 
-export function reformatDxHttpParams(loadOptions) {
+export function reformatDxHttpParams(loadOptions: any) {
   let params: HttpParams = new HttpParams();
   [
     "skip",

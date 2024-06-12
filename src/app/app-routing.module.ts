@@ -3,11 +3,18 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginFormComponent, ResetPasswordFormComponent, CreateAccountFormComponent, ChangePasswordFormComponent } from './shared/components';
 import { AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
+import { AppSharedModule } from './app-shared.module';
+import { VehiclesComponent } from './pages/vehicles/vehicles.component';
 
 const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'vehicles',
+    component: VehiclesComponent,
     canActivate: [ AuthGuardService ]
   },
   {
@@ -37,11 +44,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes, { useHash: true }), AppSharedModule],
   providers: [AuthGuardService],
   exports: [RouterModule],
-  declarations: [
-    HomeComponent,
-  ]
+  declarations: []
 })
 export class AppRoutingModule { }

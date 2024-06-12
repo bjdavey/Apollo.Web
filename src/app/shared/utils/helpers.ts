@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 // import * as XLSX from 'xlsx-js-style';
 
 export class DataGridHelpers {
-    static showDetails(e) {
+    static showDetails(e: any) {
         if (e.rowIndex < 0 || e.column.type == "buttons" || e.column.type == "selection" || e.column.type == "adaptive" || e.rowType == "group")
         return;
 

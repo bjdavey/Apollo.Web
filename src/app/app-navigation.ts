@@ -10,6 +10,7 @@ export const navigation: NavigationItem[] = [
   },
   {
     text: 'Vehicles',
+    path: '/vehicles',
     icon: 'car',
     auth: (user) => { return true; }
   }

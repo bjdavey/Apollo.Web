@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppInitService, initializeApp } from './app-init';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APIInterceptor } from './shared/interceptors/api.interceptor';
+import { VehiclesService } from './shared/data/vehicles.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { APIInterceptor } from './shared/interceptors/api.interceptor';
       useClass: APIInterceptor,
       multi: true,
     },
-    // OrdersService,
+    VehiclesService,
   ],
   bootstrap: [AppComponent]
 })

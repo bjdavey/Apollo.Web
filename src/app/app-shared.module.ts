@@ -26,6 +26,7 @@ import { DxPivotGridModule } from 'devextreme-angular/ui/pivot-grid';
 import { DxPieChartModule } from 'devextreme-angular/ui/pie-chart';
 import { DxChartModule } from 'devextreme-angular/ui/chart';
 import { DxVectorMapModule } from 'devextreme-angular/ui/vector-map';
+import { VehiclesComponent } from './pages/vehicles/vehicles.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { DxVectorMapModule } from 'devextreme-angular/ui/vector-map';
   declarations: [
     SafePipe,
     HomeComponent,
+    VehiclesComponent,
     // OrdersComponent,
   ],
   exports: [
