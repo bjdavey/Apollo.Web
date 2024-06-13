@@ -49,7 +49,7 @@ export class VehiclesComponent {
   }
 
   editRow = (e: any) => {
-    this.vehicleForm?.show(false, { ...e.row.data }).then((res: any) => {
+    this.vehicleForm?.show(false, {}, e.row?.data?.id ).then((res: any) => {
       if (res) {
         this.grid?.instance.refresh();
       }
@@ -58,8 +58,7 @@ export class VehiclesComponent {
 
   showDetails(e: any) {
     if (e.data) {
-      this.vehiclesService.getVehicleDetails(e.data.id).then((res: any) => {
-        console.log(res);
+      this.vehicleForm?.show(false, {}, e?.data?.id).then((res: any) => {
       });
     }
   }

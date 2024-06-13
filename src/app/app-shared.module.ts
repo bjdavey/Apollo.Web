@@ -29,6 +29,7 @@ import { DxVectorMapModule } from 'devextreme-angular/ui/vector-map';
 import { VehiclesComponent } from './pages/vehicles/vehicles.component';
 import { VehicleFormComponent } from './pages/vehicles/vehicle-form/vehicle-form.component';
 import { DxColorBoxModule } from 'devextreme-angular/ui/color-box';
+import { DxMapModule } from 'devextreme-angular/ui/map';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { DxColorBoxModule } from 'devextreme-angular/ui/color-box';
     DxPieChartModule,
     DxChartModule,
     DxVectorMapModule,
-    DxColorBoxModule
+    DxColorBoxModule,
+    DxMapModule
   ],
   declarations: [
     SafePipe,

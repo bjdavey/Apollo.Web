@@ -1,8 +1,20 @@
 .pic {
-    height: 50px;
-  }
-  .pic2 {
-    width: 150px;
-    background-size: contain;
-  }
-  
+  height: 50px;
+}
+
+.pic2 {
+  width: 150px;
+  background-size: contain;
+}
+
+.rounded {
+  border-radius: 6px !important;
+}
+
+.badge {
+  color: #fff;
+  background: #363640;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-weight: bold;
+}

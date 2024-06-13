@@ -3,6 +3,7 @@ import { VehiclesService } from 'src/app/shared/data/vehicles.service';
 import { GetFileURL, GetObjectsDifference } from 'src/app/shared/utils/helpers';
 import validationEngine from 'devextreme/ui/validation_engine';
 import { Brands, VehiclePriceModels, VehicleStatuses, VehicleTypes, Years } from 'src/app/shared/infrastructure/enums';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -11,12 +12,7 @@ import { Brands, VehiclePriceModels, VehicleStatuses, VehicleTypes, Years } from
 })
 export class VehicleFormComponent {
 
-  // categoryEditorOptions = {
-  //   dataSource: OrderCategories,
-  //   valueExpr: "id",
-  //   displayExpr: "text",
-  //   searchEnabled: true,
-  // };
+  moment = moment;
 
   brandsEditorOptions = {
     dataSource: Brands,
@@ -49,6 +45,7 @@ export class VehicleFormComponent {
   resolve: any;
 
   formData: any;
+  deviceData: any = {};
   initData: any;
   isNewRecord = true;
   isChanged = true;
@@ -65,13 +62,28 @@ export class VehicleFormComponent {
   ngOnInit(): void {
   }
 
-  show(isNewRecord: boolean, formData: any): Promise<any | null> {
+  show(isNewRecord: boolean, formData: any, id: number = 0): Promise<any | null> {
     this.formData = formData;
     this.initData = JSON.parse(JSON.stringify(formData));
     this.isNewRecord = isNewRecord;
     this.isChanged = isNewRecord;
     this.loading = false;
     this.error = null;
+
+    if (!isNewRecord) {
+      this.loading = true;
+      this.vehiclesService.getVehicleDetails(id).then((res: any) => {
+        console.log(res);
+        
+        this.formData = res?.vehicle;
+        this.deviceData = res?.device;
+        this.initData = JSON.parse(JSON.stringify(res));
+      }).catch(e => {
+        this.error = e;
+      }).finally(() => {
+        this.loading = false;
+      });
+    }
 
     this.visible = true;
     let promise = new Promise<any | null>(resolve => {
