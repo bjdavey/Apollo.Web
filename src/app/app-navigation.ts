@@ -15,9 +15,21 @@ export const navigation: NavigationItem[] = [
     auth: (user) => { return true; }
   },
   {
+    text: 'Orders',
+    path: '/orders',
+    icon: 'bookmark',
+    auth: (user) => { return true; }
+  },
+  {
+    text: 'Customers',
+    path: '/customers',
+    icon: 'card',
+    auth: (user) => { return true; }
+  },
+  {
     text: 'Providers',
     path: '/providers',
-    icon: 'card',
+    icon: 'product',
     auth: (user) => { return true; }
   },
   {

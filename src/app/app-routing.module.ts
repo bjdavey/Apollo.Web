@@ -7,6 +7,8 @@ import { AppSharedModule } from './app-shared.module';
 import { VehiclesComponent } from './pages/vehicles/vehicles.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ProvidersComponent } from './pages/providers/providers.component';
+import { CustomersComponent } from './pages/customers/customers.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,16 @@ const routes: Routes = [
   {
     path: 'providers',
     component: ProvidersComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'orders',
+    component: OrdersComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'customers',
+    component: CustomersComponent,
     canActivate: [AuthGuardService]
   },
   {

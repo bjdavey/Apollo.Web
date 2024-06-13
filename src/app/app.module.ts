@@ -13,6 +13,7 @@ import { APIInterceptor } from './shared/interceptors/api.interceptor';
 import { VehiclesService } from './shared/data/vehicles.service';
 import { UsersService } from './shared/data/users.service';
 import { ProvidersService } from './shared/data/providers.service';
+import { CustomersService } from './shared/data/customers.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ProvidersService } from './shared/data/providers.service';
     },
     VehiclesService,
     UsersService,
-    ProvidersService
+    ProvidersService,
+    CustomersService
   ],
   bootstrap: [AppComponent]
 })

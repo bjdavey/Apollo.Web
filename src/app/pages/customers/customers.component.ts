@@ -1,19 +1,18 @@
 import { Component, ViewChild } from '@angular/core';
 import { DxDataGridComponent } from 'devextreme-angular/ui/data-grid';
-import { ProvidersService } from 'src/app/shared/data/providers.service';
+import { CustomersService } from 'src/app/shared/data/customers.service';
 import { UserStatuses, VehicleStatuses } from 'src/app/shared/infrastructure/enums';
 import { LoggedUser } from 'src/app/shared/services/auth.service';
 import { DataGridHelpers } from 'src/app/shared/utils/helpers';
 
 @Component({
-  selector: 'app-providers',
-  templateUrl: './providers.component.html',
-  styleUrls: ['./providers.component.scss']
+  selector: 'app-customers',
+  templateUrl: './customers.component.html',
+  styleUrls: ['./customers.component.scss']
 })
-export class ProvidersComponent {
-
+export class CustomersComponent {
   
-  constructor(private providersService: ProvidersService) {
+  constructor(private customersService: CustomersService) {
   }
 
   user = LoggedUser;
@@ -24,7 +23,7 @@ export class ProvidersComponent {
   dataSource: any;
 
   ngOnInit() {
-    this.dataSource = this.providersService.createDataSource();
+    this.dataSource = this.customersService.createDataSource();
   }
 
   @ViewChild("grid", { static: false }) grid: DxDataGridComponent | undefined;

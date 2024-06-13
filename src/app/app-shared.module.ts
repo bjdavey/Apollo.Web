@@ -32,6 +32,8 @@ import { DxColorBoxModule } from 'devextreme-angular/ui/color-box';
 import { DxMapModule } from 'devextreme-angular/ui/map';
 import { UsersComponent } from './pages/users/users.component';
 import { ProvidersComponent } from './pages/providers/providers.component';
+import { CustomersComponent } from './pages/customers/customers.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 
 
 @NgModule({
@@ -68,6 +70,8 @@ import { ProvidersComponent } from './pages/providers/providers.component';
     VehicleFormComponent,
     UsersComponent,
     ProvidersComponent,
+    CustomersComponent,
+    OrdersComponent,
   ],
   exports: [
     // OrderDetailsComponent

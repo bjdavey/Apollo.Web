@@ -1,4 +1,4 @@
-<h2 class="content-block">Providers</h2>
+<h2 class="content-block">Customers</h2>
 <div class="content-block">
     <div class="dx-card responsive-paddings">
 
@@ -30,10 +30,11 @@
                     <!-- <dxi-item dataField="user.email"></dxi-item> -->
                     <dxi-item dataField="user.name"></dxi-item>
                     <dxi-item dataField="user.status"></dxi-item>
-                    <dxi-item dataField="contractNo"></dxi-item>
-                    <dxi-item dataField="cities"></dxi-item>
-                    <dxi-item dataField="startedAt"></dxi-item>
-                    <!-- <dxi-item dataField="roles" [colSpan]="2"></dxi-item> -->
+                    <dxi-item dataField="birthdate" editorType="dxDateBox"></dxi-item>
+                    <dxi-item dataField="addressLine1"></dxi-item>
+                    <dxi-item dataField="AddressLine2"></dxi-item>
+                    <dxi-item dataField="licenseIssue" editorType="dxDateBox"></dxi-item>
+                    <dxi-item dataField="licenseExpire" editorType="dxDateBox"></dxi-item>
                 </dxo-form>
             </dxo-editing>
 
@@ -60,11 +61,15 @@
                 </div>
             </dxi-column>
 
-            <dxi-column allowResizing="true" alignment="center" dataField="contractNo" caption="Contract No">
+            <dxi-column allowResizing="true" alignment="center" dataField="birthdate" caption="Birth date" format="yyyy-MM-dd" dataType="date">
             </dxi-column>
-            <dxi-column allowResizing="true" alignment="center" dataField="cities" caption="Cities">
+            <dxi-column allowResizing="true" alignment="center" dataField="addressLine1" caption="Address Line1">
             </dxi-column>
-            <dxi-column allowResizing="true" alignment="center" dataField="startedAt" caption="Started At" format="yyyy-MM-dd" dataType="date">
+            <dxi-column allowResizing="true" alignment="center" dataField="addressLine2" caption="Address Line2">
+            </dxi-column>
+            <dxi-column allowResizing="true" alignment="center" dataField="licenseIssue" caption="License Issue">
+            </dxi-column>
+            <dxi-column allowResizing="true" alignment="center" dataField="licenseExpire" caption="License Expire">
             </dxi-column>
 
             <dxi-column format="yyyy-MM-dd" dataType="date" allowResizing="true" alignment="center"
