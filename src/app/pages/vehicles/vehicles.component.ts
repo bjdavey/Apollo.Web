@@ -1,7 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { DxDataGridComponent } from 'devextreme-angular/ui/data-grid';
 import { VehiclesService } from 'src/app/shared/data/vehicles.service';
-import { DataGridHelpers } from 'src/app/shared/utils/helpers';
+import { Brands, VEHICLE_STATUS, VehicleTypes } from 'src/app/shared/infrastructure/enums';
+import { DataGridHelpers, GetFileURL } from 'src/app/shared/utils/helpers';
+import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 
 @Component({
   selector: 'app-vehicles',
@@ -11,24 +13,48 @@ import { DataGridHelpers } from 'src/app/shared/utils/helpers';
 export class VehiclesComponent {
 
   constructor(private vehiclesService: VehiclesService) {
-    this.deviceUniqueValidation = this.deviceUniqueValidation.bind(this);
+    // this.deviceUniqueValidation = this.deviceUniqueValidation.bind(this);
   }
 
   DataGridHelpers = DataGridHelpers;
   dataSource: any;
   newItemForm = false;
 
-  codePattern: any = /^[0-9a-zA-Z@.]+$/;
-  deviceUniqueValidation(e: any) {
-    return new Promise<void>((resolve, reject) => {
-      this.vehiclesService.checkDeviceUniqueUsed(e.data.id, e.data.deviceUnique).then((usedBefore) => {
-        usedBefore ? reject() : resolve();
-      }).catch(error => {
-        console.error(error);
-        reject("Server error");
-      });
+  Brands = Brands;
+  Types = VehicleTypes;
+
+  getFileURL = GetFileURL;
+
+  // codePattern: any = /^[0-9a-zA-Z@.]+$/;
+  // deviceUniqueValidation(e: any) {
+  //   return new Promise<void>((resolve, reject) => {
+  //     this.vehiclesService.checkDeviceUniqueUsed(e.data.id, e.data.deviceUnique).then((usedBefore) => {
+  //       usedBefore ? reject() : resolve();
+  //     }).catch(error => {
+  //       console.error(error);
+  //       reject("Server error");
+  //     });
+  //   });
+  // }
+
+  @ViewChild("vehicleForm", { static: false }) vehicleForm: VehicleFormComponent | undefined;
+  addRow() {
+    this.vehicleForm?.show(true, {
+      status: VEHICLE_STATUS.active,
+    }).then((res: any) => {
+      if (res) {
+        this.grid?.instance.refresh(true);
+      }
     });
   }
+
+  editRow = (e: any) => {
+    this.vehicleForm?.show(false, { ...e.row.data }).then((res: any) => {
+      if (res) {
+        this.grid?.instance.refresh();
+      }
+    });
+  };
 
   showDetails(e: any) {
     if (e.data) {
@@ -45,6 +71,7 @@ export class VehiclesComponent {
   @ViewChild("grid", { static: false }) grid: DxDataGridComponent | undefined;
 
   onToolbarPreparing(e: any) {
+    var that = this;
     var toolbarItems = e.toolbarOptions.items;
     toolbarItems.push({
       widget: "dxButton",
@@ -54,7 +81,7 @@ export class VehiclesComponent {
         type: "default",
         stylingMode: "contained",
         onClick: function (ee: any) {
-          e.component.addRow();
+          that.addRow();
         }
       },
       location: "after",

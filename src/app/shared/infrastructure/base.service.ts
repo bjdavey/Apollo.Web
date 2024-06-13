@@ -62,6 +62,23 @@ export abstract class BasesService<TModel> {
     });
     return res;
   }
+  insertWithFile(data: TModel, file: File) {
+    const formData = new FormData();
+    formData.set('values', JSON.stringify(data));
+    if (file)
+      formData.set('file', file);
+    var res = new Promise<any>((resolve, reject) => {
+      this.http.post(`/api/${this.model}/AddWithFile`, formData).subscribe({
+        next: (res: any) => {
+          resolve(res);
+        },
+        error: (e) => {
+          reject(e.error.Message);
+        }
+      });
+    });
+    return res;
+  }
 
   update(key: number, data: TModel) {
     const formData = new FormData();
@@ -79,6 +96,25 @@ export abstract class BasesService<TModel> {
     });
     return res;
   }
+  updateWithFile(key: number, data: TModel, file: File) {
+    const formData = new FormData();
+    formData.set('key', key.toString());
+    formData.set('values', JSON.stringify(data));
+    if (file)
+      formData.set('file', file);
+    var res = new Promise<any>((resolve, reject) => {
+      this.http.put(`/api/${this.model}/UpdateWithFile`, formData).subscribe({
+        next: (res: any) => {
+          resolve(res);
+        },
+        error: (e) => {
+          reject(e.error.Message);
+        }
+      });
+    });
+    return res;
+  }
+  
 
   remove(key: number) {
     var res = new Promise<any>((resolve, reject) => {

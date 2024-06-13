@@ -4,7 +4,7 @@
         <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" [columnAutoWidth]="true"
             [columnHidingEnabled]="true" [allowColumnReordering]="true"
             (onToolbarPreparing)="onToolbarPreparing($event)" [wordWrapEnabled]="true" [showBorders]="true"
-            [hoverStateEnabled]="true" (onCellClick)="DataGridHelpers.showDetails($event)">
+            [hoverStateEnabled]="true" (onCellClick)="showDetails($event)">
 
             <dxo-group-panel [visible]="true"></dxo-group-panel>
             <dxo-grouping [autoExpandAll]="false" [contextMenuEnabled]="true"></dxo-grouping>
@@ -34,16 +34,39 @@
             <dxi-column sortOrder="desc" allowResizing="true" alignment="center" dataField="id"
                 caption="Id"></dxi-column>
 
+            <dxi-column allowResizing="true" alignment="center" dataField="picture" caption="Picture"
+                cellTemplate="picTemp">
+                <div *dxTemplate="let d of 'picTemp'">
+                    <a *ngIf="d.value" [href]="d.value" target="_blank">
+                        <img [src]="getFileURL('Vehicles/' + d.value)" class="pic" />
+                    </a>
+                </div>
+            </dxi-column>
+            <dxi-column [visible]="false" dataField="pictureFile" caption="الصورة"></dxi-column>
+
             <dxi-column allowResizing="true" alignment="center" dataField="title" caption="Title">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
             </dxi-column>
             <dxi-column allowResizing="true" alignment="center" dataField="deviceUnique" caption="Device Unique">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="pattern" message="Only letters a-z, A-Z. @ and the numbers 1-9 are acceptable"
-                  [pattern]="codePattern"></dxi-validation-rule>
+                <!-- <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="pattern"
+                    message="Only letters a-z, A-Z. @ and the numbers 1-9 are acceptable"
+                    [pattern]="codePattern"></dxi-validation-rule>
                 <dxi-validation-rule type="async" message="This value is already taken"
-                  [validationCallback]="deviceUniqueValidation"></dxi-validation-rule>
-              </dxi-column>
+                    [validationCallback]="deviceUniqueValidation"></dxi-validation-rule> -->
+            </dxi-column>
+
+            <dxi-column allowResizing="true" alignment="center" dataField="brand" caption="Brand">
+                <dxo-lookup [dataSource]="Brands">
+                </dxo-lookup>
+            </dxi-column>
+            <dxi-column allowResizing="true" alignment="center" dataField="type" caption="Type">
+                <dxo-lookup [dataSource]="Types" valueExpr="id" displayExpr="text">
+                </dxo-lookup>
+            </dxi-column>
+
+            <dxi-column [visible]="false" allowResizing="true" alignment="center" dataField="description"
+                caption="Description"></dxi-column>
 
             <dxi-column format="yyyy-MM-dd" dataType="date" allowResizing="true" alignment="center"
                 dataField="createdAt" caption="Created At">
@@ -55,14 +78,14 @@
             <dxi-column name="actions" type="buttons" alignment="center" caption="Tasks">
                 <dxi-button [template]="'bDetails'">
                     <i *dxTemplate="let e of 'bDetails'">
-                        <dx-button stylingMode="contained" hint="Details" style="margin:2px;" type="default" icon="home"
+                        <dx-button stylingMode="outlined" hint="Details" style="margin:2px;" type="default" icon="detailslayout"
                             (click)="showDetails(e)"></dx-button>
                     </i>
                 </dxi-button>
-                <dxi-button [template]="'bEdit'">
+                <dxi-button [template]="'bEdit'" [onClick]="editRow">
                     <i *dxTemplate="let e of 'bEdit'">
-                        <dx-button stylingMode="contained" hint="Edit" style="margin:2px;" type="default" icon="edit"
-                            (click)="e.component.editRow(e.rowIndex)"></dx-button>
+                        <dx-button stylingMode="contained" hint="Edit" style="margin:2px;" type="default"
+                            icon="edit"></dx-button>
                     </i>
                 </dxi-button>
                 <dxi-button [template]="'bDelete'">
@@ -80,3 +103,6 @@
         </dx-data-grid>
     </div>
 </div>
+
+
+<app-vehicle-form #vehicleForm></app-vehicle-form>

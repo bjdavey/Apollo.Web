@@ -27,6 +27,8 @@ import { DxPieChartModule } from 'devextreme-angular/ui/pie-chart';
 import { DxChartModule } from 'devextreme-angular/ui/chart';
 import { DxVectorMapModule } from 'devextreme-angular/ui/vector-map';
 import { VehiclesComponent } from './pages/vehicles/vehicles.component';
+import { VehicleFormComponent } from './pages/vehicles/vehicle-form/vehicle-form.component';
+import { DxColorBoxModule } from 'devextreme-angular/ui/color-box';
 
 
 @NgModule({
@@ -52,13 +54,14 @@ import { VehiclesComponent } from './pages/vehicles/vehicles.component';
     DxPivotGridModule,
     DxPieChartModule,
     DxChartModule,
-    DxVectorMapModule
+    DxVectorMapModule,
+    DxColorBoxModule
   ],
   declarations: [
     SafePipe,
     HomeComponent,
     VehiclesComponent,
-    // OrdersComponent,
+    VehicleFormComponent,
   ],
   exports: [
     // OrderDetailsComponent

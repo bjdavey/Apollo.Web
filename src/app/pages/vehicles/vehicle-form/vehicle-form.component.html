@@ -1,0 +1,115 @@
+<dx-popup #popup class="popup" width="auto" width="80%" height="90%" [showTitle]="true" [dragEnabled]="true"
+    [resizeEnabled]="true" [hideOnOutsideClick]="true" [(visible)]="visible" [title]="isNewRecord ? 'New' : ('Edit: ' + formData.deviceUnique)">
+
+    <dxi-toolbar-item toolbar="bottom" location="after">
+        <div *dxTemplate>
+            <dx-button [disabled]="loading || !isChanged" stylingMode="contained" type="default" text="Save" icon="save"
+                (click)="save()"></dx-button>
+        </div>
+    </dxi-toolbar-item>
+    <dxi-toolbar-item toolbar="bottom" location="after">
+        <div *dxTemplate>
+            <dx-button [disabled]="loading" stylingMode="outlined" type="default" text="Close" icon="close"
+                (click)="close()"></dx-button>
+        </div>
+    </dxi-toolbar-item>
+
+    <dxi-toolbar-item toolbar="bottom" location="center">
+        <div *dxTemplate>
+            <dx-load-indicator [visible]="loading" height="30" width="30"></dx-load-indicator>
+            <div *ngIf="error" style="color: #dc3545;">{{error}}</div>
+        </div>
+    </dxi-toolbar-item>
+
+
+    <div *dxTemplate="let data of 'content'">
+
+        <dx-form [disabled]="loading" validationGroup="formValidate" [formData]="formData" (onFieldDataChanged)="onFieldDataChanged($event)">
+        
+            <dxi-item itemType="group" [colCount]="2">
+
+                <dxi-item dataField="deviceUnique" [editorOptions]="{ maxLength: 20, readOnly: !isNewRecord }">
+                    <dxo-label template="Device Unique"></dxo-label>
+                    <dxi-validation-rule *ngIf="isNewRecord" type="required"></dxi-validation-rule>
+                    <dxi-validation-rule *ngIf="isNewRecord" type="pattern" message="Only letters a-z, A-Z. @ and the numbers 1-9 are acceptable"
+                      [pattern]="codePattern"></dxi-validation-rule>
+                    <dxi-validation-rule *ngIf="isNewRecord" type="async" message="This value is already taken"
+                      [validationCallback]="deviceUniqueValidation"></dxi-validation-rule>
+                </dxi-item>
+
+                <dxi-item dataField="title">
+                    <dxo-label template="Title"></dxo-label>
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                </dxi-item>
+
+                <dxi-item dataField="brand" editorType="dxSelectBox" [editorOptions]="brandsEditorOptions">
+                    <dxo-label template="Brand"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="year" editorType="dxSelectBox" [editorOptions]="yearsEditorOptions">
+                    <dxo-label template="Year"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="color" editorType="dxColorBox">
+                    <dxo-label template="Color"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="type" editorType="dxSelectBox" [editorOptions]="typesEditorOptions">
+                    <dxo-label template="Type"></dxo-label>
+                </dxi-item>
+
+                <dxi-item colSpan="1" dataField="pictureFile" editorType="dxFileUploader" [editorOptions]="fileEditorOptions">
+                    <dxo-label template="Picture"></dxo-label>
+                </dxi-item>
+                <dxi-item [template]="'picEditTemp'" colSpan="1"></dxi-item>
+
+                <dxi-item dataField="priceModel" editorType="dxSelectBox" [editorOptions]="priceModelEditorOptions">
+                    <dxo-label template="Price Model"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="pricePerModel" editorType="dxNumberBox" [editorOptions]="{ format: '#,##0.## €', showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Cost"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="status" editorType="dxSelectBox" [editorOptions]="vehicleStatusEditorOptions">
+                    <dxo-label template="Status"></dxo-label>
+                </dxi-item>
+
+            </dxi-item>
+
+            <dxi-item itemType="group">
+
+                <dxi-item dataField="desc" editorType="dxTextArea" [editorOptions]="{height: 70}">
+                    <dxo-label text="Description"> </dxo-label>
+                </dxi-item>
+
+            </dxi-item>
+
+            <dxi-item itemType="group" [colCount]="2" caption="Restrictions">
+                <!-- VehicleRestrictions -->
+                <dxi-item dataField="vehicleRestriction.maxHours" editorType="dxNumberBox" [editorOptions]="{ showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Max Hours"></dxo-label>
+                </dxi-item>
+                <dxi-item dataField="vehicleRestriction.maxMile" editorType="dxNumberBox" [editorOptions]="{ showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Max Miles"></dxo-label>
+                </dxi-item>
+                <dxi-item dataField="vehicleRestriction.minAge" editorType="dxNumberBox" [editorOptions]="{ showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Minimum Age"></dxo-label>
+                </dxi-item>
+                <dxi-item dataField="vehicleRestriction.maxPersons" editorType="dxNumberBox" [editorOptions]="{ showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Maximum Number of Persons"></dxo-label>
+                </dxi-item>
+            </dxi-item>
+
+
+
+            <div *dxTemplate="let arg of 'picEditTemp'">
+                <img *ngIf="picSrcTmp" [src]="picSrcTmp | safe" class="pic2" />
+              </div>
+
+        </dx-form>
+
+    </div>
+
+
+</dx-popup>
