@@ -13,6 +13,18 @@ export const navigation: NavigationItem[] = [
     path: '/vehicles',
     icon: 'car',
     auth: (user) => { return true; }
+  },
+  {
+    text: 'Providers',
+    path: '/providers',
+    icon: 'card',
+    auth: (user) => { return true; }
+  },
+  {
+    text: 'Users',
+    path: '/users',
+    icon: 'group',
+    auth: (user) => { return true; }
   }
 ];
 

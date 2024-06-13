@@ -22,6 +22,35 @@ export const UserStatuses: {
     },
   ]
 
+  export enum USER_TYPE {
+    admin = 1,
+    operation = 2,
+    provider = 3,
+    customer = 4,
+  }
+  
+  export const UserTypes: {
+    id: USER_TYPE,
+    text: string,
+  }[] = [
+      {
+        id: USER_TYPE.admin,
+        text: "Admin",
+      },
+      {
+        id: USER_TYPE.operation,
+        text: "Operation",
+      },
+      {
+        id: USER_TYPE.provider,
+        text: "Provider",
+      },
+      {
+        id: USER_TYPE.customer,
+        text: "Customer",
+      },
+    ]
+
 
 export enum VEHICLE_TYPE {
   motorcycle = 1,

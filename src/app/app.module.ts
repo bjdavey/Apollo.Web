@@ -11,6 +11,8 @@ import { AppInitService, initializeApp } from './app-init';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APIInterceptor } from './shared/interceptors/api.interceptor';
 import { VehiclesService } from './shared/data/vehicles.service';
+import { UsersService } from './shared/data/users.service';
+import { ProvidersService } from './shared/data/providers.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { VehiclesService } from './shared/data/vehicles.service';
       multi: true,
     },
     VehiclesService,
+    UsersService,
+    ProvidersService
   ],
   bootstrap: [AppComponent]
 })

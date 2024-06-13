@@ -81,6 +81,21 @@ export class AuthService {
     });
   }
 
+  async insert(data: any) {
+    const formData = new FormData();
+    formData.set('values', JSON.stringify(data));
+    var res = new Promise<any>((resolve, reject) => {
+      this.http.post(`${environment.apiUrl}/api/User/Add`, formData).subscribe({
+        next: (res: any) => {
+          resolve(res);
+        },
+        error: (e) => {
+          reject(e.error.Message);
+        }
+      });
+    });
+    return res;
+  }
 
   user = LoggedUser;
   logOut() {

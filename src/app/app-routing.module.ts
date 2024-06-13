@@ -5,37 +5,49 @@ import { AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
 import { AppSharedModule } from './app-shared.module';
 import { VehiclesComponent } from './pages/vehicles/vehicles.component';
+import { UsersComponent } from './pages/users/users.component';
+import { ProvidersComponent } from './pages/providers/providers.component';
 
 const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'vehicles',
     component: VehiclesComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'providers',
+    component: ProvidersComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'login-form',
     component: LoginFormComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'reset-password',
     component: ResetPasswordFormComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'create-account',
     component: CreateAccountFormComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'change-password/:recoveryCode',
     component: ChangePasswordFormComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [AuthGuardService]
   },
   {
     path: '**',

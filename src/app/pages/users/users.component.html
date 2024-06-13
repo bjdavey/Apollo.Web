@@ -1,0 +1,167 @@
+<h2 class="content-block">Users</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+
+    <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" [columnAutoWidth]="true"
+      [columnHidingEnabled]="true" [allowColumnReordering]="true" (onToolbarPreparing)="onToolbarPreparing($event)"
+      (onInitNewRow)="onInitNewRow($event)" (onEditingStart)="onEditingStart($event)"
+      (onEditorPreparing)="onEditorPreparing($event)" [wordWrapEnabled]="true" [showBorders]="true"
+      [hoverStateEnabled]="true" (onCellClick)="DataGridHelpers.showDetails($event)">
+
+      <dxo-group-panel [visible]="false"></dxo-group-panel>
+      <dxo-export [enabled]="false"></dxo-export>
+      <dxo-column-chooser [enabled]="false" mode="select">
+        <dxo-position my="right top" at="right bottom" of=".dx-datagrid-column-chooser-button">
+        </dxo-position>
+        <dxo-selection [allowSelectAll]="true" [selectByClick]="true" [recursive]="true"></dxo-selection>
+      </dxo-column-chooser>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+      </dxo-pager>
+      <dxo-search-panel [visible]="false" placeholder="Search..."></dxo-search-panel>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
+      <dxo-editing mode="popup" [allowAdding]="false" [allowUpdating]="true" [allowDeleting]="true">
+        <dxo-popup title="User" width="1011" height="auto" resizeEnabled="true">
+          <!--[position]="{ my: 'center', at: 'center', of: window }">-->
+        </dxo-popup>
+        <dxo-form colCount="2">
+          <dxi-item dataField="email"></dxi-item>
+          <dxi-item dataField="name"></dxi-item>
+          <dxi-item dataField="status"></dxi-item>
+          <dxi-item [visible]="newItemForm" dataField="type"></dxi-item>
+          <dxi-item [visible]="newItemForm" dataField="password"></dxi-item>
+          <dxi-item [visible]="newItemForm" dataField="password2"></dxi-item>
+          <!-- <dxi-item dataField="roles" [colSpan]="2"></dxi-item> -->
+        </dxo-form>
+      </dxo-editing>
+
+      <dxi-column sortOrder="desc" allowResizing="true" alignment="center" dataField="id" caption="ID"></dxi-column>
+
+      <dxi-column allowResizing="true" alignment="center" dataField="email" caption="Email">
+        <dxi-validation-rule type="required"></dxi-validation-rule>
+        <dxi-validation-rule type="email"></dxi-validation-rule>
+        <dxi-validation-rule type="async" message="Email is already taken"
+          [validationCallback]="emailValidation"></dxi-validation-rule>
+      </dxi-column>
+
+      <dxi-column allowResizing="true" alignment="center" dataField="name" caption="Name">
+        <dxi-validation-rule type="required"></dxi-validation-rule>
+      </dxi-column>
+
+      <dxi-column allowResizing="true" alignment="center" dataField="status" caption="Status" cellTemplate="statusTemp">
+        <dxo-lookup [dataSource]="UserStatuses" valueExpr="id" displayExpr="text">
+        </dxo-lookup>
+        <div *dxTemplate="let d of 'statusTemp'">
+          <div *ngIf="d.data.status == 1" class="state green">Active</div>
+          <div *ngIf="d.data.status == 2" class="state red">Disabled</div>
+          <div *ngIf="d.data.status == 3" class="state orange">Pending</div>
+        </div>
+      </dxi-column>
+      <dxi-column allowResizing="true" alignment="center" dataField="type" caption="Type">
+        <dxo-lookup [dataSource]="UserTypes" valueExpr="id" displayExpr="text">
+        </dxo-lookup>
+      </dxi-column>
+
+      <dxi-column format="yyyy-MM-dd" dataType="date" allowResizing="true" alignment="center" dataField="createdAt"
+        caption="Created At">
+      </dxi-column>
+
+      <dxi-column allowResizing="true" alignment="center" dataField="createdByUser.name" caption="Created By">
+      </dxi-column>
+
+      <dxi-column name="actions" type="buttons" alignment="center" caption="Tasks">
+        <dxi-button [template]="'b'">
+          <i *dxTemplate="let e of 'b'">
+            <dx-button id="b" stylingMode="contained" hint="Change Password" style="margin:2px;" type="success"
+              icon="key" (click)="changePasswordPopup(e)"></dx-button>
+          </i>
+        </dxi-button>
+        <dxi-button [template]="'bEdit'">
+          <i *dxTemplate="let e of 'bEdit'">
+            <dx-button stylingMode="contained" hint="Edit" style="margin:2px;" type="default" icon="edit"
+              (click)="e.component.editRow(e.rowIndex)"></dx-button>
+          </i>
+        </dxi-button>
+        <dxi-button [template]="'bDelete'">
+          <i *dxTemplate="let e of 'bDelete'">
+            <dx-button stylingMode="contained" hint="Delete" style="margin:2px;" type="danger" icon="remove"
+              (click)="e.component.deleteRow(e.rowIndex)"></dx-button>
+          </i>
+        </dxi-button>
+      </dxi-column>
+
+      <!-- <dxi-column [visible]="false" dataField="roles" caption="Roles" editCellTemplate="rolesTemplate">
+      </dxi-column>
+      <div *dxTemplate="let cellInfo of 'rolesTemplate'">
+        <dx-list [items]="roles" [showSelectionControls]="true" selectionMode="all" keyExpr="key"
+          [selectedItemKeys]="getKeys(cellInfo)" (onSelectionChanged)="keysChanged($event, cellInfo)">
+        </dx-list>
+      </div> -->
+
+      <dxi-column [visible]="false" dataField="password" caption="Password">
+        <dxi-validation-rule type="required"></dxi-validation-rule>
+        <dxi-validation-rule type="stringLength" [min]="4" message="Minimum is 4 characters"></dxi-validation-rule>
+      </dxi-column>
+      <dxi-column [visible]="false" dataField="password2" caption="Retype Password">
+        <dxi-validation-rule type="required"></dxi-validation-rule>
+        <dxi-validation-rule [validationCallback]="validationPassword" type="custom" [reevaluate]="true"
+          message="Passwords doesn't match"></dxi-validation-rule>
+      </dxi-column>
+
+
+      <dxo-summary>
+        <dxi-total-item column="id" valueFormat="#,##0.##" summaryType="count"> </dxi-total-item>
+      </dxo-summary>
+
+    </dx-data-grid>
+
+  </div>
+</div>
+
+
+
+
+<!--changePassword Popup-->
+<dx-popup style="padding-bottom: 40px;" class="popup" width="auto" height="auto" [showTitle]="true"
+  title="Password Change" [dragEnabled]="true" [resizeEnabled]="true" [closeOnOutsideClick]="true"
+  [(visible)]="changePasswordPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+
+
+    <dx-form #form [(formData)]="changePasswordForm" [colCount]="2">
+
+      <dxi-item dataField="Password" [editorOptions]='{ mode: "password", autocomplete: "off" }'>
+        <dxo-label text="New Password"> </dxo-label>
+        <dxi-validation-rule type="required"></dxi-validation-rule>
+        <dxi-validation-rule type="stringLength" [min]="4" message="Minimum is 4 characters"></dxi-validation-rule>
+      </dxi-item>
+      <dxi-item dataField="Password2" [editorOptions]='{ mode: "password", autocomplete: "off" }'>
+        <dxo-label text="Retype Password"> </dxo-label>
+        <dxi-validation-rule type="required"></dxi-validation-rule>
+        <dxi-validation-rule type="compare" message="Passwords doesn't match"
+          [comparisonTarget]="passwordComparison"></dxi-validation-rule>
+      </dxi-item>
+
+    </dx-form>
+
+
+
+    <dx-load-indicator [visible]="loadIndicatorVisible" style="position:absolute; bottom:16px; right:16px" height="27"
+      width="27">
+    </dx-load-indicator>
+
+    <div style="height: 40px;"></div>
+    <div style="position:absolute; bottom:8px; left:8px;">
+      <dx-button stylingMode="contained" style="margin:4px;" type="default" text="Save" icon="save"
+        (click)="this.changePassword()">
+      </dx-button>
+
+      <dx-button stylingMode="outlined" style="margin:4px;" type="default" text="Cancel" icon="close"
+        (click)="this.changePasswordPopupVisible = false"></dx-button>
+    </div>
+
+  </div>
+
+</dx-popup>
