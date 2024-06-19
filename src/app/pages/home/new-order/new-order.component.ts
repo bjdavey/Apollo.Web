@@ -67,6 +67,7 @@ export class NewOrderComponent {
     this.vehicle = vehicle;
     this.newOrder = {
       vehicleId: vehicle.id,
+      startAt: new Date(),
     };
     this.loading = false;
     this.error = null;
