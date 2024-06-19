@@ -1,0 +1,118 @@
+<dx-popup #popup class="popup" width="auto" width="80%" height="90%" [showTitle]="true" [dragEnabled]="true"
+    [resizeEnabled]="true" [hideOnOutsideClick]="true" [(visible)]="visible" title="New Order">
+
+    <dxi-toolbar-item toolbar="bottom" location="after">
+        <div *dxTemplate>
+            <dx-button [disabled]="loading" stylingMode="contained" type="default" text="Save" icon="save"
+                (click)="save()"></dx-button>
+        </div>
+    </dxi-toolbar-item>
+    <dxi-toolbar-item toolbar="bottom" location="after">
+        <div *dxTemplate>
+            <dx-button [disabled]="loading" stylingMode="outlined" type="default" text="Close" icon="close"
+                (click)="close()"></dx-button>
+        </div>
+    </dxi-toolbar-item>
+
+    <dxi-toolbar-item toolbar="bottom" location="center">
+        <div *dxTemplate>
+            <dx-load-indicator [visible]="loading" height="30" width="30"></dx-load-indicator>
+            <div *ngIf="error" style="color: #dc3545;">{{error}}</div>
+        </div>
+    </dxi-toolbar-item>
+
+
+    <div *dxTemplate="let data of 'content'">
+
+        <dx-form [formData]="vehicle" [readOnly]="true">
+
+            <dxi-item itemType="group" [colCount]="3">
+
+                <dxi-item dataField="title">
+                    <dxo-label template="Title"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="brand" editorType="dxSelectBox" [editorOptions]="brandsEditorOptions">
+                    <dxo-label template="Brand"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="year" editorType="dxSelectBox" [editorOptions]="yearsEditorOptions">
+                    <dxo-label template="Year"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="type" editorType="dxSelectBox" [editorOptions]="typesEditorOptions">
+                    <dxo-label template="Type"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="priceModel" editorType="dxSelectBox" [editorOptions]="priceModelEditorOptions">
+                    <dxo-label template="Price Model"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="pricePerModel" editorType="dxNumberBox"
+                    [editorOptions]="{ format: '#,##0.## €', showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Cost"></dxo-label>
+                </dxi-item>
+
+                <dxi-item colSpan="2" dataField="desc" editorType="dxTextArea" [editorOptions]="{height: 70}">
+                    <dxo-label text="Description"> </dxo-label>
+                </dxi-item>
+
+                <dxi-item [template]="'picEditTemp'"></dxi-item>
+
+            </dxi-item>
+
+
+            <dxi-item itemType="group" [colCount]="4" caption="Restrictions">
+                <!-- VehicleRestrictions -->
+                <dxi-item dataField="vehicleRestriction.maxHours" editorType="dxNumberBox"
+                    [editorOptions]="{ showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Max Hours"></dxo-label>
+                </dxi-item>
+                <dxi-item dataField="vehicleRestriction.maxMile" editorType="dxNumberBox"
+                    [editorOptions]="{ showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Max Miles"></dxo-label>
+                </dxi-item>
+                <dxi-item dataField="vehicleRestriction.minAge" editorType="dxNumberBox"
+                    [editorOptions]="{ showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Minimum Age"></dxo-label>
+                </dxi-item>
+                <dxi-item dataField="vehicleRestriction.maxPersons" editorType="dxNumberBox"
+                    [editorOptions]="{ showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Maximum Number of Persons"></dxo-label>
+                </dxi-item>
+            </dxi-item>
+
+            <div *dxTemplate="let arg of 'picEditTemp'">
+                <img *ngIf="vehicle?.picture" [src]="getFileURL('Vehicles/' + vehicle?.picture)" class="pic2" />
+            </div>
+
+        </dx-form>
+
+        <dx-form  validationGroup="formValidate" [disabled]="loading" [formData]="newOrder" (onFieldDataChanged)="onFieldDataChanged($event)">
+
+            <dxi-item itemType="group" [colCount]="3" caption="Usage">
+                <dxi-item *ngIf="vehicle?.priceModel == PRICE_MODEL.perHour" dataField="startAt" editorType="dxDateBox"
+                    [editorOptions]="{ type: 'datetime', dateSerializationFormat:'yyyy-MM-ddTHH:mm:ss' }">
+                    <dxo-label template="Start"></dxo-label>
+                </dxi-item>
+                <dxi-item *ngIf="vehicle?.priceModel == PRICE_MODEL.perHour" dataField="endAt" editorType="dxDateBox"
+                    [editorOptions]="{ type: 'datetime', dateSerializationFormat:'yyyy-MM-ddTHH:mm:ss' }">
+                    <dxo-label template="End"></dxo-label>
+                </dxi-item>
+                <dxi-item *ngIf="vehicle?.priceModel == PRICE_MODEL.perKM" dataField="distance" editorType="dxNumberBox"
+                    [editorOptions]="{ format: '#,##0.## km', showSpinButtons: true, showClearButton: true, min: 0 }">
+                    <dxo-label template="Estimated Distance"></dxo-label>
+                </dxi-item>
+                <dxi-item dataField="totalCost" editorType="dxNumberBox"
+                    [editorOptions]="{ format: '#,##0.## €', readOnly: 'true' }">
+                    <dxo-label template="Total Cost"></dxo-label>
+                </dxi-item>
+            </dxi-item>
+
+
+        </dx-form>
+
+    </div>
+
+
+</dx-popup>

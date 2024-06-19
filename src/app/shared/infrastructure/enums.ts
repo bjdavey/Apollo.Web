@@ -95,7 +95,7 @@ export const VehiclePriceModels: {
       text: "Per Distance (KM)",
     },
     {
-      id: PRICE_MODEL.perKM,
+      id: PRICE_MODEL.perHour,
       text: "Per Time (Hour)",
     },
   ]

@@ -34,6 +34,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { ProvidersComponent } from './pages/providers/providers.component';
 import { CustomersComponent } from './pages/customers/customers.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { NewOrderComponent } from './pages/home/new-order/new-order.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { OrdersComponent } from './pages/orders/orders.component';
     DxChartModule,
     DxVectorMapModule,
     DxColorBoxModule,
-    DxMapModule
+    DxMapModule,
+    DxDateRangeBoxModule,
   ],
   declarations: [
     SafePipe,
@@ -72,6 +74,7 @@ import { OrdersComponent } from './pages/orders/orders.component';
     ProvidersComponent,
     CustomersComponent,
     OrdersComponent,
+    NewOrderComponent,
   ],
   exports: [
     // OrderDetailsComponent

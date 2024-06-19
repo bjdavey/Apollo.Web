@@ -3,6 +3,7 @@ import { DxMapComponent } from 'devextreme-angular/ui/map';
 import { LoadOptions } from 'devextreme/data';
 import { VehiclesService } from 'src/app/shared/data/vehicles.service';
 import { VEHICLE_STATUS } from 'src/app/shared/infrastructure/enums';
+import { NewOrderComponent } from './new-order/new-order.component';
 
 @Component({
   templateUrl: 'home.component.html',
@@ -21,7 +22,7 @@ export class HomeComponent {
   mapMarkerRed = "/assets/img/map-marker-red.png";
   mapMarkerGreen = "/assets/img/map-marker-green.png";
   mapMarkerMe = "/assets/img/map-marker-me.png";
-  centerPoint: any = "Baghdad";
+  centerPoint: any = "Dortmund, Germany";
   //centerPoint =  { lat: 33.3152, lng: 44.3661 };
 
   @ViewChild("map", { static: false }) map?: DxMapComponent;
@@ -40,13 +41,10 @@ export class HomeComponent {
   }
 
   async getData() {
-    var loadOptions: LoadOptions = {
-      skip: 0,
-      take: 1000,
-    };
-
-    var res: any = await this.vehiclesService.get(loadOptions);
-    this.vehicles = res.data;
+    var res: any = await this.vehiclesService.getVehicles();
+    this.vehicles = res;
+    console.log(res);
+    
   }
 
   onContentReady(args: any) {
@@ -70,21 +68,17 @@ export class HomeComponent {
   setMarkers() {
     var that = this;
     this.vehicles.forEach(x => {
-      if (x.location) {
-        var lat = x.latitude;
-        var lng = x.longitude;
+      if (x.device?.latitude && x.device?.longitude) {
         this.markers.push({
           id: x.id,
-          iconSrc: x.status == VEHICLE_STATUS.active ? this.mapMarkerGreen : this.mapMarkerRed,
-          location: [lat, lng],
+          iconSrc: x.vehicle.status == VEHICLE_STATUS.active ? this.mapMarkerGreen : this.mapMarkerRed,
+          location: [x.device.latitude, x.device.longitude],
           tooltip: {
             isShown: false,
-            text: x.title
+            text: x.vehicle.title
           },
           onClick: function () {
-            if (x.type == 1) {
-              that.showDetailsPopup(x);
-            }
+            that.showDetailsPopup(x);
           }
         });
       }
@@ -110,7 +104,12 @@ export class HomeComponent {
     that.centerPoint = that.myMark;
   }
 
+  @ViewChild("newOrderComponent", { static: false }) newOrderComponent: NewOrderComponent | undefined;
   showDetailsPopup(x: any) {
+    this.newOrderComponent?.show(x.vehicle, x.device).then((res: any) => {
+      if (res) {
+      }
+    });
   }
 
   onItemClick(e: any) {

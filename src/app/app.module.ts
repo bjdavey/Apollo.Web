@@ -14,6 +14,7 @@ import { VehiclesService } from './shared/data/vehicles.service';
 import { UsersService } from './shared/data/users.service';
 import { ProvidersService } from './shared/data/providers.service';
 import { CustomersService } from './shared/data/customers.service';
+import { OrdersService } from './shared/data/orders.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { CustomersService } from './shared/data/customers.service';
     VehiclesService,
     UsersService,
     ProvidersService,
-    CustomersService
+    CustomersService,
+    OrdersService
   ],
   bootstrap: [AppComponent]
 })

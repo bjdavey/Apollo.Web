@@ -32,4 +32,18 @@ export class VehiclesService extends BasesService<any> {
     return res;
   }
 
+  getVehicles() {
+    var res = new Promise<any>((resolve, reject) => {
+      this.http.get(`/api/${this.model}/GetVehicles`).subscribe({
+        next: (res: any) => {
+          resolve(res);
+        },
+        error: (e) => {
+          reject(e?.error?.Message);
+        }
+      });
+    });
+    return res;
+  }
+
 }
