@@ -32,3 +32,15 @@
     }
   }
 }
+
+.vehicle {
+  display: inline-flex;
+  img {
+    margin-inline: 8px;
+    width: 100px;
+    background-size: contain;
+  }
+  .title {
+    font-size: 22px;
+  }
+}

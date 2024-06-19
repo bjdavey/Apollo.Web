@@ -1,9 +1,28 @@
 <h2 class="content-block">Home</h2>
-<div class="content-block">
+<div class="content-block" style="display: inline-flex;">
 
     <dx-map #map [center]="centerPoint" [zoom]="14" [autoAdjust]="true" [height]="600" width="100%" provider="google"
         [apiKey]="keys" [markers]="markers" [autoAdjust]="true">
     </dx-map>
+
+    <div style="width: 30%;">
+        <dx-list [dataSource]="vehicles" (onItemClick)="onItemClick($event)">
+            <div *dxTemplate="let x of 'item'">
+                <div class="vehicle">
+                    <img alt="{{ x.vehicle.title }}" [src]="getFileURL('Vehicles/' + x.vehicle?.picture)" />
+                    <div>
+                        <div class="title">{{ x.vehicle.title }}</div>
+                        <div>{{ x.vehicle.brand }}, {{ x.vehicle.year }}</div>
+                        <div class="muted">{{ x.vehicle.pricePerModel }}
+                            per
+                            <span *ngIf="x.vehicle.priceModel == PRICE_MODEL.perKM">KM</span>
+                            <span *ngIf="x.vehicle.priceModel == PRICE_MODEL.perHour">Hour</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dx-list>
+    </div>
 
 </div>
 

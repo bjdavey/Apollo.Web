@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DxMapComponent } from 'devextreme-angular/ui/map';
 import { LoadOptions } from 'devextreme/data';
 import { VehiclesService } from 'src/app/shared/data/vehicles.service';
-import { VEHICLE_STATUS } from 'src/app/shared/infrastructure/enums';
+import { PRICE_MODEL, VEHICLE_STATUS } from 'src/app/shared/infrastructure/enums';
 import { NewOrderComponent } from './new-order/new-order.component';
+import { GetFileURL } from 'src/app/shared/utils/helpers';
 
 @Component({
   templateUrl: 'home.component.html',
@@ -32,6 +33,9 @@ export class HomeComponent {
 
   providerPopup: boolean = false;
   providerForm: any = {};
+
+  getFileURL = GetFileURL;
+  PRICE_MODEL = PRICE_MODEL;
 
   ngOnInit() {
     this.getMyLocation();
@@ -70,7 +74,7 @@ export class HomeComponent {
     this.vehicles.forEach(x => {
       if (x.device?.latitude && x.device?.longitude) {
         this.markers.push({
-          id: x.id,
+          id: x.vehicle.id,
           iconSrc: x.vehicle.status == VEHICLE_STATUS.active ? this.mapMarkerGreen : this.mapMarkerRed,
           location: [x.device.latitude, x.device.longitude],
           tooltip: {
@@ -113,7 +117,8 @@ export class HomeComponent {
   }
 
   onItemClick(e: any) {
-    var marker = this.markers.find(x => x.id == e.itemData.id);
+    var marker = this.markers.find(x => x.id == e.itemData.vehicle.id);
+    
     if (marker) {
       this.centerPoint = {
         lat: marker.location[0],
