@@ -1,2 +1,8 @@
 <h2 class="content-block">Home</h2>
-<div class="content-block"></div>
+<div class="content-block">
+
+    <dx-map #map [center]="centerPoint" [zoom]="14" [autoAdjust]="true" [height]="600" width="100%" provider="google"
+        [apiKey]="keys" [markers]="markers" [autoAdjust]="true">
+    </dx-map>
+
+</div>

@@ -1,4 +1,5 @@
-<div *ngIf="environment.name != 'production'" class="uat-label">{{environment.name}}</div>
+<!-- <div *ngIf="environment.name != 'production'" class="uat-label">{{environment.name}}</div> -->
+<div class="uat-label">UAT</div>
 <ng-container *ngIf="isAuthenticated(); else unauthenticated">
   <app-side-nav-outer-toolbar title="{{appInfo.title}}">
     <router-outlet></router-outlet>
