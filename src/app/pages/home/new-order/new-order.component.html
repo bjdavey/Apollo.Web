@@ -1,7 +1,7 @@
 <dx-popup #popup class="popup" width="auto" width="80%" height="90%" [showTitle]="true" [dragEnabled]="true"
-    [resizeEnabled]="true" [hideOnOutsideClick]="true" [(visible)]="visible" title="New Order">
+    [resizeEnabled]="true" [hideOnOutsideClick]="true" [(visible)]="visible" [title]="vehicle?.title">
 
-    <dxi-toolbar-item toolbar="bottom" location="after">
+    <dxi-toolbar-item *ngIf="LoggedUser.type == USER_TYPE.customer" toolbar="bottom" location="after">
         <div *dxTemplate>
             <dx-button [disabled]="loading" stylingMode="contained" type="default" text="Save" icon="save"
                 (click)="save()"></dx-button>
@@ -88,7 +88,7 @@
 
         </dx-form>
 
-        <dx-form  validationGroup="formValidate" [disabled]="loading" [formData]="newOrder" (onFieldDataChanged)="onFieldDataChanged($event)">
+        <dx-form *ngIf="LoggedUser.type == USER_TYPE.customer" validationGroup="formValidate" [disabled]="loading" [formData]="newOrder" (onFieldDataChanged)="onFieldDataChanged($event)">
 
             <dxi-item itemType="group" [colCount]="3" caption="Usage">
                 <dxi-item *ngIf="vehicle?.priceModel == PRICE_MODEL.perHour" dataField="startAt" editorType="dxDateBox"

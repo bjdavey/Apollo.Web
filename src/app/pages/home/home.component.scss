@@ -35,6 +35,7 @@
 
 .vehicle {
   display: inline-flex;
+  width: 100%;
   img {
     margin-inline: 8px;
     width: 100px;
@@ -42,5 +43,9 @@
   }
   .title {
     font-size: 22px;
+  }
+  .switch {
+    margin-left: auto;
+    top: 15px;
   }
 }

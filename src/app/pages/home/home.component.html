@@ -13,12 +13,14 @@
                     <div>
                         <div class="title">{{ x.vehicle.title }}</div>
                         <div>{{ x.vehicle.brand }}, {{ x.vehicle.year }}</div>
-                        <div class="muted">{{ x.vehicle.pricePerModel }}
+                        <div class="muted">{{ x.vehicle.pricePerModel }} €
                             per
                             <span *ngIf="x.vehicle.priceModel == PRICE_MODEL.perKM">KM</span>
                             <span *ngIf="x.vehicle.priceModel == PRICE_MODEL.perHour">Hour</span>
                         </div>
                     </div>
+                    <dx-button class="switch" stylingMode="contained" hint="Show" type="default"
+                        icon="bookmark" (click)="showDetailsPopup(x)"></dx-button>
                 </div>
             </div>
         </dx-list>

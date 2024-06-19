@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { GetFileURL, GetObjectsDifference } from 'src/app/shared/utils/helpers';
 import validationEngine from 'devextreme/ui/validation_engine';
-import { Brands, PRICE_MODEL, VehiclePriceModels, VehicleStatuses, VehicleTypes, Years } from 'src/app/shared/infrastructure/enums';
+import { Brands, PRICE_MODEL, USER_TYPE, VehiclePriceModels, VehicleStatuses, VehicleTypes, Years } from 'src/app/shared/infrastructure/enums';
 import * as moment from 'moment';
 import { OrdersService } from 'src/app/shared/data/orders.service';
 import { confirm, alert } from 'devextreme/ui/dialog';
 import notify from 'devextreme/ui/notify';
+import { LoggedUser } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-new-order',
@@ -14,7 +15,9 @@ import notify from 'devextreme/ui/notify';
 })
 export class NewOrderComponent {
 
-
+  LoggedUser = LoggedUser;
+  USER_TYPE = USER_TYPE;
+  
   moment = moment;
   getFileURL = GetFileURL;
 

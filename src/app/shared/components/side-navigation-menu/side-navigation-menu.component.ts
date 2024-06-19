@@ -1,6 +1,6 @@
 import { Component, NgModule, Output, Input, EventEmitter, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { DxTreeViewModule, DxTreeViewComponent, DxTreeViewTypes } from 'devextreme-angular/ui/tree-view';
-import { navigation } from '../../../app-navigation';
+import { IsPathAuthorized, navigation } from '../../../app-navigation';
 
 import * as events from 'devextreme/events';
 
@@ -33,7 +33,8 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
   private _items!: Record <string, unknown>[];
   get items() {
     if (!this._items) {
-      this._items = navigation.map((item) => {
+      var items = navigation.filter(x => IsPathAuthorized(x));
+      this._items = items.map((item) => {
         if(item.path && !(/^\//.test(item.path))){
           item.path = `/${item.path}`;
         }

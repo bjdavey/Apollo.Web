@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DxMapComponent } from 'devextreme-angular/ui/map';
 import { LoadOptions } from 'devextreme/data';
 import { VehiclesService } from 'src/app/shared/data/vehicles.service';
-import { PRICE_MODEL, VEHICLE_STATUS } from 'src/app/shared/infrastructure/enums';
+import { PRICE_MODEL, USER_TYPE, VEHICLE_STATUS } from 'src/app/shared/infrastructure/enums';
 import { NewOrderComponent } from './new-order/new-order.component';
 import { GetFileURL } from 'src/app/shared/utils/helpers';
+import { LoggedUser } from 'src/app/shared/services/auth.service';
 
 @Component({
   templateUrl: 'home.component.html',
@@ -14,6 +15,8 @@ import { GetFileURL } from 'src/app/shared/utils/helpers';
 export class HomeComponent {
   constructor(private vehiclesService: VehiclesService) { }
 
+  LoggedUser = LoggedUser;
+  USER_TYPE = USER_TYPE;
 
   keys = {
     google: "AIzaSyC8rIDtStz4O9N7-2nFW8LyKiVGez2W3wE",

@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { DxDataGridComponent } from 'devextreme-angular/ui/data-grid';
 import { VehiclesService } from 'src/app/shared/data/vehicles.service';
-import { Brands, VEHICLE_STATUS, VehicleTypes } from 'src/app/shared/infrastructure/enums';
+import { Brands, USER_TYPE, VEHICLE_STATUS, VehicleTypes } from 'src/app/shared/infrastructure/enums';
 import { DataGridHelpers, GetFileURL } from 'src/app/shared/utils/helpers';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
+import { LoggedUser } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-vehicles',
@@ -11,6 +12,9 @@ import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
   styleUrls: ['./vehicles.component.scss']
 })
 export class VehiclesComponent {
+
+  LoggedUser = LoggedUser;
+  USER_TYPE = USER_TYPE;
 
   constructor(private vehiclesService: VehiclesService) {
     // this.deviceUniqueValidation = this.deviceUniqueValidation.bind(this);
@@ -49,7 +53,7 @@ export class VehiclesComponent {
   }
 
   editRow = (e: any) => {
-    this.vehicleForm?.show(false, {}, e.row?.data?.id ).then((res: any) => {
+    this.vehicleForm?.show(false, {}, e.row?.data?.id).then((res: any) => {
       if (res) {
         this.grid?.instance.refresh();
       }
@@ -72,20 +76,24 @@ export class VehiclesComponent {
   onToolbarPreparing(e: any) {
     var that = this;
     var toolbarItems = e.toolbarOptions.items;
-    toolbarItems.push({
-      widget: "dxButton",
-      options: {
-        text: "Add",
-        icon: "add",
-        type: "default",
-        stylingMode: "contained",
-        onClick: function (ee: any) {
-          that.addRow();
-        }
-      },
-      location: "after",
-      locateInMenu: "auto"
-    });
+
+    if (LoggedUser.type == USER_TYPE.provider) {
+      toolbarItems.push({
+        widget: "dxButton",
+        options: {
+          text: "Add",
+          icon: "add",
+          type: "default",
+          stylingMode: "contained",
+          onClick: function (ee: any) {
+            that.addRow();
+          }
+        },
+        location: "after",
+        locateInMenu: "auto"
+      });
+    }
+
   }
 
 }
