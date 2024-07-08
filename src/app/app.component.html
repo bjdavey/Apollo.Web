@@ -4,13 +4,20 @@
   <app-side-nav-outer-toolbar title="{{appInfo.title}}">
     <router-outlet></router-outlet>
     <app-footer>
-      Copyright © 2023-{{appInfo.currentYear}} {{appInfo.title}} Inc.
-      <br/>
-      All trademarks or registered trademarks are property of their respective owners.
+      <div><img class="logo" src="../assets/img/FH_Dortmund-logo.png" /></div>
+      Project Apollo is a study project by MDT students Team 01
+      <span>(boluwatife.alawode001&#64;stud.fh-dortmund.de , mustafa.ali003&#64;stud.fh-dortmund.de)</span>
+      for Mini-Projects module (Summer 2024) at FH Dortmund.
     </app-footer>
   </app-side-nav-outer-toolbar>
 </ng-container>
 
 <ng-template #unauthenticated>
   <app-unauthenticated-content></app-unauthenticated-content>
+  <div class="footer">
+    <div><img class="logo" src="../assets/img/FH_Dortmund-logo.png" /></div>
+    Project Apollo is a study project by MDT students Team 01
+    <span>(boluwatife.alawode001&#64;stud.fh-dortmund.de , mustafa.ali003&#64;stud.fh-dortmund.de)</span>
+    for Mini-Projects module (Summer 2024) at FH Dortmund.
+  </div>
 </ng-template>

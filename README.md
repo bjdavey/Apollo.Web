@@ -1,27 +1,47 @@
-# ApolloWeb
+Project Codename: Apollo    
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
+Description: Car renting platform. Providers can register vehicles of various types. Customer can search for available vehicles according to their current location and booking.
 
-## Development server
+Team 01
+Students:
+1) Boluwatife Adebola Alawode, 7219092, boluwatife.alawode001@stud.fh-dortmund.de
+2) Mustafa Ali, 7218952, mustafa.ali003@stud.fh-dortmund.de
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Database:
+https://github.com/bjdavey/Apollo.DB
+MySQL v8.4.0
 
-## Code scaffolding
+Backend:
+https://github.com/bjdavey/Apollo.API
+.NET Core 8.0.6 Web API
+https://apollo-api.bjdavey.online/
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+Frontend:
+https://github.com/bjdavey/Apollo.Web
+Angular +2 with DevExtreme
+https://apollo.bjdavey.online
+email-admin: admin@apollo.tech
+email-provider: provider1@apollo.tech
+email-customer: customer1@apollo.tech
+password (all): 0000
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+-------------------------------
+Traccar (Open Source Software):
+https://traccar.bjdavey.online or http://185.222.241.148:8082/
+email: jbjdavey@hotmail.com
+password: 0000
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+You can download Traccar Client Mobile app from https://www.traccar.org/client/
+1) Set the "Device identifier" to the "Device Unique" of the vehicle that you created in Apollo
+2) Set the Server URL: https://traccar-client.bjdavey.online or http://185.222.241.148:5055
+3) Switch on and check the status
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+--------------------------------------------------------------
+If you wish to deploy the project in your environment:
+1) You need to install Traccar server (https://www.traccar.org/download/)
+2) You need MySQL v8.4.0, build the database using this sql script https://github.com/bjdavey/Apollo.DB
+2) Clone, edit appsettings.json, and run the backend https://github.com/bjdavey/Apollo.API (.NET Core 8.0.6 Web API)
+3) Clone the frontend https://github.com/bjdavey/Apollo.Web, edit environment.local.ts to point the "apiUrl" to your backend, then run using the "start-local" script in package.json
