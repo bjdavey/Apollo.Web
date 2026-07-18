@@ -1,4 +1,5 @@
-Project Codename: Apollo    
+**Project Codename: Apollo**
+
 Description: Car renting platform. Providers can register vehicles of various types. Customer can search for available vehicles according to their current location and booking.
 
 <img width="3270" height="2343" alt="design" src="https://github.com/user-attachments/assets/9ac7ed1b-e2e0-4567-be71-137748223b23" />
